@@ -6,6 +6,7 @@ class News extends Component{
         super(props);
         // this.props = props;
         this.state = {
+            name: "",
             posts: [{
                 header: "Post 1",
                 content: "Post 1",
@@ -58,9 +59,30 @@ class News extends Component{
         });
     }
 
+
+    changeInput = (e) => {
+        let value = parseInt(e.target.value, 10);
+        this.setState({
+            name: !isNaN(value) ? value : ''
+        });
+    }
+
     render(){
         return (
             <div className="post-list">
+                <div>
+                    Заголовок
+                    <input onChange={this.changeInput}
+                           type="text"
+                           value={this.state.name} />
+                    <p>
+                        Контент:
+                        <textarea  cols="30" rows="10"></textarea>
+                    </p>
+                    <button onClick={this.addPost}>
+                        Add New Post
+                    </button>
+                </div>
                 {this.state.posts.map((post, index) => {
                     return <Post header={post.header}
                                  key={index}
@@ -71,9 +93,6 @@ class News extends Component{
                         {post.content}
                     </Post>
                 })}
-                <button onClick={this.addPost}>
-                    Add New Post
-                </button>
             </div>
         )
     }
