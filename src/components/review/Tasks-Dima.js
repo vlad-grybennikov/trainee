@@ -17,4 +17,22 @@ Tasks.propTypes = {
 
 }
 
+this.state = {
+    exercises: [{
+        name: "Upr 1",
+        done: false
+    }],
+    trainingEnd: false,
+    timer: {
+
+    }
+}
+
+
+
+
+
+
+
+
 export default Tasks;
