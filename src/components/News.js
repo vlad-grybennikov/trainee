@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Post from "./Post";
+import Timer from "./Timer";
 
 class News extends Component{
     constructor(props){
@@ -7,6 +8,7 @@ class News extends Component{
         // this.props = props;
         this.state = {
             name: "",
+            age: "",
             posts: [{
                 header: "Post 1",
                 content: "Post 1",
@@ -19,7 +21,10 @@ class News extends Component{
                 header: "Post 3",
                 content: "Post 3",
                 likes: 300
-            }]
+            }],
+            timer: true,
+            minutes: 13,
+            seconds: 38
         };
 
         //setState(object|func, ?func){
@@ -60,11 +65,28 @@ class News extends Component{
     }
 
 
-    changeInput = (e) => {
+    changeAge = (e) => {
         let value = parseInt(e.target.value, 10);
         this.setState({
-            name: !isNaN(value) ? value : ''
+            age: !isNaN(value) ? value : ''
         });
+    }
+    changeName = (e) => {
+        let value = e.target.value;
+        this.setState({
+            name: value
+        });
+    }
+
+    renderTimer = () => {
+        if(this.state.timer){
+            return <Timer
+                        seconds={this.state.seconds}
+                        minutes={this.state.minutes}
+                    />
+        } else {
+            return null;
+        }
     }
 
     render(){
@@ -93,6 +115,7 @@ class News extends Component{
                         {post.content}
                     </Post>
                 })}
+                {this.renderTimer()}
             </div>
         )
     }
