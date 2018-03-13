@@ -32,9 +32,10 @@ export default class Training extends React.Component {
     }
     doneExercise (index){
         this.setState((prevState) => {
+            debugger;
             prevState.exercises[index].checked = true;
             prevState.exercises[index].time =
-                `${prevState.minutes}:${prevState.seconds}`;
+                `${prevState.timer.minutes}:${prevState.timer.seconds}`;
             return prevState;
         })
 
@@ -47,6 +48,12 @@ export default class Training extends React.Component {
                 minutes,
                 seconds
             }
+        })
+    }
+
+    trainingEnd = () => {
+        this.setState({
+            paused: true
         })
     }
 
@@ -66,7 +73,9 @@ export default class Training extends React.Component {
                 <Timer onTimerChange={this.timerChange}
                        minutes={this.state.timer.minutes}
                        seconds={this.state.timer.seconds}
+                       pause={this.state.paused}
                 />
+                <button onClick={this.trainingEnd}>Закончить</button>
             </div>
         )
     }

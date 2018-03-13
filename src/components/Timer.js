@@ -8,7 +8,8 @@ export default  class Timer extends Component{
     static propTypes = {
         minutes: PropTypes.number.isRequired,
         seconds: PropTypes.number.isRequired,
-        onTimerChange: PropTypes.func
+        onTimerChange: PropTypes.func,
+        pause: PropTypes.bool
     }
 
     static defaultProps = {
@@ -37,6 +38,7 @@ export default  class Timer extends Component{
     }
 
     componentDidUpdate(prevProps, prevState){
+        // this.props.pause
         this.props.onTimerChange(this.state.minutes, this.state.seconds);
     }
 
