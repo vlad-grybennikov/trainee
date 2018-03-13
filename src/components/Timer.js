@@ -1,11 +1,14 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
+
+console.log(moment());
 
 export default  class Timer extends Component{
     static propTypes = {
         minutes: PropTypes.number.isRequired,
         seconds: PropTypes.number.isRequired,
-        array: PropTypes.arrayOf(PropTypes.number)
+        onTimerChange: PropTypes.func
     }
 
     static defaultProps = {
@@ -19,6 +22,10 @@ export default  class Timer extends Component{
     }
 
     shouldComponentUpdate(nextProps, nextState){
+        if(nextProps.minutes == this.state.minutes &&
+            nextProps.seconds == this.state.seconds){
+            return false;
+        }
         return nextState.seconds % 2 === 0;
     }
 
@@ -27,6 +34,10 @@ export default  class Timer extends Component{
             minutes: nextProps.minutes,
             seconds: nextProps.seconds
         })
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        this.props.onTimerChange(this.state.minutes, this.state.seconds);
     }
 
     componentDidMount(){

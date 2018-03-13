@@ -1,0 +1,10 @@
+.select {
+    border:solid;
+}
+.select__options{
+    display: none;
+}
+.select__options--visible{
+    display: block;
+}
+

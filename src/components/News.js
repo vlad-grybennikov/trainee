@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import Post from "./Post";
 import Timer from "./Timer";
+import Select from "./Select";
+import Training from './training/Training'
+
+
 
 class News extends Component{
     constructor(props){
@@ -91,8 +95,10 @@ class News extends Component{
 
     render(){
         return (
+
             <div className="post-list">
-                <div>
+                <Training></Training>
+                {/*<div>
                     Заголовок
                     <input onChange={this.changeInput}
                            type="text"
@@ -116,6 +122,21 @@ class News extends Component{
                     </Post>
                 })}
                 {this.renderTimer()}
+                */}
+
+
+                <Select className="asd" placeholder="Choose Option" selectedIndex={1}>
+                    <Select.Option value="option-1">
+                        <b>1</b>
+                        Option 1
+                    </Select.Option>
+                    <Select.Option>
+                        Option 2
+                    </Select.Option>
+                    <Select.Option>
+                        Option 3
+                    </Select.Option>
+                </Select>
             </div>
         )
     }
