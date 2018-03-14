@@ -9,12 +9,18 @@ export default  class Timer extends Component{
         minutes: PropTypes.number.isRequired,
         seconds: PropTypes.number.isRequired,
         onTimerChange: PropTypes.func,
-        pause: PropTypes.bool
+        onTimerEnd: PropTypes.func,
+        pause: PropTypes.bool,
+        reverse: PropTypes.bool,
+        delay: PropTypes.number
     }
 
     static defaultProps = {
         minutes: 0,
-        seconds: 0
+        seconds: 0,
+        delay: 1,
+        onTimerChange: () => {},
+        onTimerEnd: () => {}
     }
 
     state = {
@@ -27,7 +33,8 @@ export default  class Timer extends Component{
             nextProps.seconds == this.state.seconds){
             return false;
         }
-        return nextState.seconds % 2 === 0;
+        return nextState.seconds % this.props.delay === 0 ||
+                nextProps.seconds % this.props.delay === 0;
     }
 
     componentWillReceiveProps(nextProps){
@@ -38,7 +45,9 @@ export default  class Timer extends Component{
     }
 
     componentDidUpdate(prevProps, prevState){
-        // this.props.pause
+        if(this.props.pause){
+            clearInterval(this.interval);
+        }
         this.props.onTimerChange(this.state.minutes, this.state.seconds);
     }
 
@@ -48,10 +57,16 @@ export default  class Timer extends Component{
             this.setState((prevState) => {
                 let minutes = parseInt(this.state.minutes);
                 let seconds = parseInt(this.state.seconds);
-                seconds++;
-                if(seconds > 59) {
+                this.props.reverse ? seconds-- : seconds++;
+                if(!this.props.reverse && seconds > 59) {
                     seconds = 0;
                     minutes++;
+                } else if(this.props.reverse && seconds < 1 && minutes > 0){
+                    seconds = 59;
+                    minutes--;
+                } else if(minutes === 0 && seconds === 0){
+                    clearInterval(this.interval);
+                    this.props.onTimerEnd();
                 }
                 return {
                     minutes,

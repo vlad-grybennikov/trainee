@@ -1,15 +1,22 @@
 import React from 'react';
 import './Training.css';
 import Timer from "../Timer";
+import Exercise from "./Exercise";
 
-const Exercise = (props) => {
+
+export const TimeWrapper = (Component, props) => {
+    //const props = {
+    //    minutes: 30,
+    //    seconds: 0
+    //};
+
     return (
-        <div onClick={props.doneExercise}>
-            <input type="checkbox" checked={props.checked}/>
-            <span className={props.checked? 'checked': ''}>{props.name}</span>
-        </div>
+        <Component minutes={props.minutes}
+                   seconds={props.seconds}
+        />
     )
 }
+
 export default class Training extends React.Component {
     state = {
         exercises : [{

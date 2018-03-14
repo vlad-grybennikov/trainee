@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 import Post from "./Post";
-import Timer from "./Timer";
-import Select from "./Select";
-import Training from './training/Training'
 
 
 
@@ -69,36 +66,18 @@ class News extends Component{
     }
 
 
-    changeAge = (e) => {
-        let value = parseInt(e.target.value, 10);
-        this.setState({
-            age: !isNaN(value) ? value : ''
-        });
-    }
-    changeName = (e) => {
-        let value = e.target.value;
-        this.setState({
-            name: value
-        });
-    }
 
-    renderTimer = () => {
-        if(this.state.timer){
-            return <Timer
-                        seconds={this.state.seconds}
-                        minutes={this.state.minutes}
-                    />
-        } else {
-            return null;
-        }
-    }
+
+
 
     render(){
+
         return (
 
             <div className="post-list">
-                <Training></Training>
-                {/*<div>
+
+
+                <div>
                     Заголовок
                     <input onChange={this.changeInput}
                            type="text"
@@ -121,22 +100,11 @@ class News extends Component{
                         {post.content}
                     </Post>
                 })}
-                {this.renderTimer()}
-                */}
 
 
-                <Select className="asd" placeholder="Choose Option" selectedIndex={1}>
-                    <Select.Option value="option-1">
-                        <b>1</b>
-                        Option 1
-                    </Select.Option>
-                    <Select.Option>
-                        Option 2
-                    </Select.Option>
-                    <Select.Option>
-                        Option 3
-                    </Select.Option>
-                </Select>
+
+
+
             </div>
         )
     }
