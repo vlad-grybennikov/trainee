@@ -5,7 +5,7 @@
     justify-content: space-between;
     flex-wrap:wrap;
     box-sizing:border-box;
-    padding:0 20px;
+    padding:10px 20px 0;
     margin: 10px auto;
 }
 

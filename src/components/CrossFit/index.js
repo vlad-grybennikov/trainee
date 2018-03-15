@@ -41,7 +41,7 @@ class CrossFit extends Component{
         this.state = {
             minutes: Math.floor(this.time / 60),
             seconds: this.time % 60,
-            ccal: 0,
+            ccal: 100,
             inProcess: false,
             card: {
                 image:'https://i.ytimg.com/vi/_l3ySVKYVJ8/maxresdefault.jpg',
@@ -85,6 +85,12 @@ class CrossFit extends Component{
 
     }
 
+    calChange = (ccal) => {
+        this.setState({
+            ccal: Math.round(ccal)
+        })
+    }
+
     render(){
         return(
             <div>
@@ -110,7 +116,7 @@ class CrossFit extends Component{
                     <div>
 
                         <h3>{this.state.ccal}</h3>
-                        <RangeSlider max={500} min={100}/>
+                        <RangeSlider  onChange={this.calChange}max={500} min={100}/>
 
                         <Button className="btn-start" onClick={this.startProcess}><b>start</b></Button>
 
