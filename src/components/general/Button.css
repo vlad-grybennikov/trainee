@@ -1,0 +1,16 @@
+.button {
+    min-width: 100px;
+    padding: 10px 15px 12px 15px;
+    line-height: 24px;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 5px;
+    border: 1px solid #7cbc0a;
+    background-color: #80c217;
+    /*background: linear-gradient(to bottom, #9dd53a 0%,#a1d54f 50%,#80c217 51%,#7cbc0a 100%);*/
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: #91c34a;
+}

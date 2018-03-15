@@ -8,6 +8,12 @@ import CardExercise from "./CardExercise";
 import './index.css';
 
 
+const crossfit = {
+    '565': "Hard Word",
+    '13': "Unfortunatly",
+    '7': 'Happy Work'
+}
+
 const exerciseList = [{
     image:'https://i.ytimg.com/vi/_l3ySVKYVJ8/maxresdefault.jpg',
     description:'push ups'
@@ -28,7 +34,7 @@ const exerciseList = [{
         image:'https://cdn-mf0.heartyhosting.com/sites/mensfitness.com/files/styles/wide_videos/public/rookie-mistake-deadlift_0.jpg',
         description:'deadlift'
     }]
-export default class CrossFit extends Component{
+class CrossFit extends Component{
     constructor(props){
         super(props);
         this.time = 30;
@@ -82,7 +88,10 @@ export default class CrossFit extends Component{
     render(){
         return(
             <div>
-
+                <h2>Crossfit #{this.props.match.params.id}</h2>
+                <p className="message">
+                    {crossfit[this.props.match.params.id]}
+                </p>
                 <RenderIf condition={this.state.inProcess}>
                         <div>
                             <Timer onTimerChange={this.changeExercise}
@@ -101,10 +110,12 @@ export default class CrossFit extends Component{
                     <div>
 
                         <h3>{this.state.ccal}</h3>
+                        <RangeSlider max={500} min={100}/>
 
                         <Button className="btn-start" onClick={this.startProcess}><b>start</b></Button>
 
                     </div>
+
 
                 </RenderIf>
 
@@ -114,4 +125,5 @@ export default class CrossFit extends Component{
     }
 
 }
+export default CrossFit;
 
