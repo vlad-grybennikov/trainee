@@ -4,6 +4,7 @@ import "./RangeSlider.css";
 
 const offsetAbs = (element, startOffset = 0) => {
 
+    // Рекурсивно складывает offset до элемента
     let offset = startOffset;
     offset += element.offsetLeft;
     if(element.offsetParent !== null){
@@ -20,9 +21,7 @@ export default class RangeSlider extends Component{
     }
     static defaultProps = {
         min: 0,
-        onChange:()=>{
-
-        }
+        onChange: ()=>{}
     }
 
     state = {
@@ -33,7 +32,7 @@ export default class RangeSlider extends Component{
 
     changeValue = (e) => {
         let value = parseInt(e.target.value, 10);
-        if(value > this.props.max){
+        if(value > this.props.max) {
             return false;
         }
 
@@ -45,6 +44,8 @@ export default class RangeSlider extends Component{
     }
 
     countValue = (clientX) => {
+
+        // Расчет положения бегунка
         let start = this.props.min,
             end = this.props.max,
             deltaX = clientX - offsetAbs(this.rangeBar),
@@ -53,22 +54,35 @@ export default class RangeSlider extends Component{
             return false;
         }
         let value = Math.round((end - start) * shiftWidth + start);
+        // Расчет положения бегунка
+
+
         this.setState({
             rangeWidth: shiftWidth,
+
+            // аналог: value: value
             value
+
         }, () => {
+            // Функция сработает после рендеринга
             this.props.onChange(value)
         })
     }
 
     clickHandler = (e) => {
+
+        // Если клик был по бегунку, то не пересчитываем значение
         if(e.target !== this.rangePointer){
+
+            // Передаем значение координаты стрелки
             this.countValue(e.clientX);
         }
     }
 
     moveHandler = (e) => {
         if(this.state.canMove){
+
+            // Передаем значение координаты стрелки
             this.countValue(e.clientX);
         } else {
             return false;
@@ -94,6 +108,7 @@ export default class RangeSlider extends Component{
                  onMouseLeave={this.deniedMove}>
                 <span className="range__min">{this.props.min}</span>
                     <div className="range__bar" ref={(node) => {
+
                         this.rangeBar = node;
                     }} onClick={this.clickHandler}
                     >

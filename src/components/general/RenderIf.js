@@ -1,28 +1,23 @@
 import React, {Component} from 'react';
+import PropTypes from "prop-types";
 
 export const RenderIf = (props) => {
+
+    // Проверяем условие props.condition
     if(props.condition){
+
+        // Рендерим то, что между тегами
         return props.children;
     } else {
+
+        // Ничего не рендерим
         return null;
     }
 }
 
-export const RenderIfElse = (props) => {
-    if(props.condition){
-       return this.children[0];
-    } else {
-        return this.children[1];
-    }
+RenderIf.propTypes = {
+    condition: PropTypes.bool,
+    children: PropTypes.any
 }
-
-//<RenderCond condition={1}>
-//    <RenderCond.If>
-//        <True></True>
-//    </RenderCond.If>
-//    <RenderCond.Else>
-//        <False></False>
-//    </RenderCond.Else>
-//</RenderCond>
 
 export default RenderIf;

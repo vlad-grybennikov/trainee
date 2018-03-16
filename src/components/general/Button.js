@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
+import {excludeProp} from "../../utils";
 import './Button.css';
 
 
 const Button = (props) => {
-    let copyProps = Object.assign({}, props);
-    delete copyProps.className;
-    delete copyProps.children;
 
     return (
-        <button className={`button
-            ${props.className ? props.className : ''}`}
-            {...copyProps}>
+        <button
+            {...excludeProp(props, "children", "className")}
+            className={`button
+            ${props.className ? props.className : ''}`}>
             {props.children}
         </button>
     )
