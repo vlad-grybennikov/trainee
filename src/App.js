@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Switch,
     from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+import Button from "./components/general/Button";
 import News from "./components/News";
 import CrossFit from "./components/CrossFit";
 import Training from "./components/training";
@@ -19,7 +20,7 @@ const Menu = (props) => {
             <NavLink to="/home/">home</NavLink>
             <NavLink to="/daily/">daily</NavLink>
             <NavLink to="/statistics/">statistics</NavLink>
-            <Link to="/logout/">logout</Link>
+            <Link to="/logout/"><Button>logout</Button></Link>
         </div>
     )
 }
