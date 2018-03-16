@@ -21,7 +21,11 @@ class Select extends Component{
         selectedIndex: PropTypes.number,
         className: PropTypes.string,
         placeholder: PropTypes.string,
-        children: PropTypes.arrayOf(PropTypes.instanceOf(Option)).isRequired
+        children: PropTypes.arrayOf(PropTypes.instanceOf(Option)).isRequired,
+        searchable: PropTypes.bool
+    }
+    static defaultProps = {
+        selectedIndex: 0,
     }
     state = {
         selectedIndex: this.props.selectedIndex,

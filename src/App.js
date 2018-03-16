@@ -7,45 +7,65 @@ import './App.css';
 import News from "./components/News";
 import CrossFit from "./components/CrossFit";
 import Training from "./components/training";
+import Login, {Logout} from "./components/Login";
+import SelectTrainer from './components/training/SelectTrainer';
+import {excludeProp} from "./utils";
 
-const PrivateRoute = (props) => {
-  let validate = false;
-  if(validate){
-    return <Route {...props} />
-  } else {
-    return <Redirect to="/" />
-  }
+
+// Компонент который рисует меню
+const Menu = (props) => {
+    return (
+        <div>
+            <NavLink to="/home/">home</NavLink>
+            <NavLink to="/daily/">daily</NavLink>
+            <NavLink to="/statistics/">statistics</NavLink>
+            <Link to="/logout/">logout</Link>
+        </div>
+    )
 }
 
+// Обертка для компонентов в которых нужно меню
+const Container = (Component) => {
+    return () => {
+        return (<div className="container">
+                    <Menu />
+                    <Component />
+                </div>)
+    }
+}
+
+
+const PrivateRoute = (props) => {
+    let logged = localStorage.getItem('logged');
+    let wrappedComponent = Container(props.component);
+    if (logged){
+        return <Route {...excludeProp(props, "component")}
+            component={wrappedComponent} />
+    } else {
+        return <Redirect to="/login" />
+    }
+}
 
 class App extends Component {
   render() {
     return (
         <div>
-          <h2>TRAINEE</h2>
-          <Router>
-            <div className="App">
-                <div className="nav">
-                  <NavLink to="/crossfit/565"
-                           activeClassName="active">CrossFit</NavLink>
-                  <NavLink to="/news/"
-                           activeClassName="active">
-                    News</NavLink>
-                  <NavLink to="/training/karter" activeClassName="active"
-                  >Training</NavLink>
+            <h2>TRAINEE</h2>
+
+            <Router>
+                <div>
+                    <Switch>
+                        <Route path="/login" component={Login} />
+                        <Route path="/logout" component={Logout} />
+                        <PrivateRoute path="/home" component={SelectTrainer} />
+                    </Switch>
                 </div>
-                <Switch>
-                  <Route path="/crossfit/" component={CrossFit}/>
-                  <Route path="/crossfit/:id" component={CrossFit} />
-                  <PrivateRoute path="/news/" component={News} />
-                  <Route path="/training/:name" component={Training}/>
-                  <Redirect from="/" to="/crossfit/"/>
-                </Switch>
-            </div>
-          </Router>
+            </Router>
+
         </div>
+
     );
   }
-}
+};
 
 export default App;
