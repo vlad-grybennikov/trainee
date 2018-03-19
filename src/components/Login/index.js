@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import {Button, TextInput} from "../ui";
-import {withRouter} from "react-router-dom";
+import {Button, TextInput, ErrorMessage} from "../ui";
+import {withRouter, Link} from "react-router-dom";
 import {getLogged} from "../../utils";
 import styled from 'styled-components';
 import UsernameIcon from '../../assets/icons/icon-username.svg'
 import PasswordIcon from '../../assets/icons/icon-password.svg'
+
+
+const media = {
+    desktop: (styles) => {
+        return `@media screen and (min-width: 1024px){
+            ${styles}
+        }`
+    }
+}
 
 const Logo = styled.h1`
     font-size: 120px;
@@ -18,15 +27,37 @@ const SubLogo = styled(Logo)`
 `;
 
 const Container = styled.div`
+    display:flex;
+    flex-direction: column;
     width: 100%;
     min-height: 100vh;
     background-image: url("../../assets/img/bg-login.jpg");
     background-size: cover;
     color: #fff;
-    padding: 20px 30px;
+    padding: 20px 45px;
     box-sizing: border-box;
     font-family: Montserrat, sans-serif;
+    ${media.desktop(`
+        color: pink;
+    `)}
 `;
+const ButtonStart = styled(Button)`
+    margin: 25px auto 50px
+
+`
+const InputCenter = styled.div`
+    margin-top: auto;
+`
+const LinkContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
+const StyledLink = styled(Link)`
+    color: grey;
+    text-decoration: none;
+    font-size: 11px;
+`
+
 
 // Оборачиваем в withRouter, чтобы получить доступ
 // к this.props.history, нужен для редиректа
@@ -53,7 +84,8 @@ class Login extends Component{
 
     state = {
         login: '',
-        password: ''
+        password: '',
+        visible: false
     }
 
     onChange = (inputName, event) => {
@@ -71,10 +103,16 @@ class Login extends Component{
     };
 
     onLogin = () => {
-        localStorage.setItem('logged', true);
+        if (this.state.login.length < 1 || this.state.password.length < 1) {
+            this.setState({
+                visible: true
+            })
+        } else {
+            localStorage.setItem('logged', true);
 
-        // Редирект
-        this.props.history.push("/home");
+            // Редирект
+            this.props.history.push("/home");
+        }
     }
 
     render(){
@@ -82,21 +120,28 @@ class Login extends Component{
         <Container>
             <Logo>TNR</Logo>
             <SubLogo>APP</SubLogo>
-            <TextInput onChange={this.onChange.bind(this, 'login')}
-                   value={this.state.login} placeholder="login"
-                   type="text"
-                       image={UsernameIcon}
-            />
+            <InputCenter>
+                <ErrorMessage visible={this.state.visible}>Incorrect Login</ErrorMessage>
+                <TextInput onChange={this.onChange.bind(this, 'login')}
+                       value={this.state.login} placeholder="login"
+                       type="text"
+                           image={UsernameIcon}
+                />
 
-            <TextInput onChange={this.onChange.bind(this, 'password')}
-                   value={this.state.password}
-                       image={PasswordIcon}
-                   placeholder="password" type="password"/>
+                <TextInput onChange={this.onChange.bind(this, 'password')}
+                       value={this.state.password}
+                           image={PasswordIcon}
+                       placeholder="password" type="password"/>
 
-            <Button type="button"
-                    onClick={this.onLogin}>
-                get started
-            </Button>
+                <ButtonStart type="button"
+                        onClick={this.onLogin}>
+                    get started
+                </ButtonStart>
+                <LinkContainer>
+                    <StyledLink to="/signup">Create Account</StyledLink>
+                    <StyledLink to="/">Need help?</StyledLink>
+                </LinkContainer>
+            </InputCenter>
 
         </Container>
         )
@@ -104,6 +149,14 @@ class Login extends Component{
 
 }
 
+export class SignupLocal extends Component {
+    render(){
+        return(
+            <Container>Signup</Container>
+        )
+    }
+}
 // Оборачиваем в withRouter, чтобы получить доступ
 // к this.props.history, нужен для редиректа
+export const Signup = withRouter(SignupLocal);
 export default withRouter(Login);

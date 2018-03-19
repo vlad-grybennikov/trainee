@@ -8,7 +8,7 @@ import Button from "./components/general/Button";
 import News from "./components/News";
 import CrossFit from "./components/CrossFit";
 import Training from "./components/training";
-import Login, {Logout} from "./components/Login";
+import Login, {Logout, Signup} from "./components/Login";
 import SelectTrainer from './components/training/SelectTrainer';
 import {getLogged, excludeProp} from "./utils";
 
@@ -73,6 +73,8 @@ class App extends Component {
                         <Route path="/login" component={Login} />
 
                         <Route path="/logout" component={Logout} />
+
+                        <Route path="/signup" component={Signup} />
 
                         {/* Закрытые роуты */}
                         <PrivateRoute path="/home" component={SelectTrainer} />

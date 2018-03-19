@@ -18,6 +18,7 @@ export const Button = styled.button`
 `;
 
 const InputWrapper = styled.div`
+    margin-bottom: 5px;
     width: 100%;
     height: 60px;
     max-width: 480px;
@@ -28,14 +29,22 @@ const InputWrapper = styled.div`
       width: 60px;
       content: '';
       background-image: url(${props => props.image ? props.image : ''});
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position: center;
     }
 `;
 const Input = styled.input`
+    letter-spacing: 0.04em;
     height: 100%;
     width: 100%;
     border: none;
     &:focus{
       outline: none;
+    }
+    &::placeholder{
+      color: #333
+      opacity: 1;
     }
 `;
 export const TextInput = (props) => {
@@ -45,3 +54,13 @@ export const TextInput = (props) => {
         </InputWrapper>
     )
 }
+
+export const ErrorMessage = styled.div`
+    display: ${props => props.visible ? 'block' : 'none'}
+    background-color: #fff
+    text-align: center
+    font-family:Chivo;
+    font-weight: bold;
+    color: #f00;
+    text-transform:uppercase;
+`;
