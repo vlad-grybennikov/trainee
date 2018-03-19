@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="30px" viewBox="0 0 32 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.1 (28215) - http://www.bohemiancoding.com/sketch -->
+    <title>Username</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2-1-Login" transform="translate(-114.000000, -774.000000)">
+            <g id="Group" transform="translate(65.000000, 709.000000)">
+                <g id="Username" transform="translate(40.000000, 55.000000)">
+                    <g id="Group" transform="translate(9.000000, 10.000000)" fill="#000000">
+                        <path d="M32,30 C32,21.9 21.4,18 16,18 C10.6,18 0,21.9 0,30 L32,30 Z" id="Shape"></path>
+                        <path d="M16,14 C19.85,14 23,10.85 23,7 C23,3.15 19.85,0 16,0 C12.15,0 9,3.15 9,7 C9,10.85 12.15,14 16,14 L16,14 Z" id="Shape"></path>
+                    </g>
+                    <rect id="Bounds" x="0" y="0" width="50" height="50"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

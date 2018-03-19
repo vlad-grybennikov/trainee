@@ -1,8 +1,32 @@
 import React, { Component } from 'react';
-import Button from "../general/Button";
+import {Button, TextInput} from "../ui";
 import {withRouter} from "react-router-dom";
 import {getLogged} from "../../utils";
+import styled from 'styled-components';
+import UsernameIcon from '../../assets/icons/icon-username.svg'
+import PasswordIcon from '../../assets/icons/icon-password.svg'
 
+const Logo = styled.h1`
+    font-size: 120px;
+    text-align: right;
+    line-height: 1;
+    font-weight: normal;
+`;
+
+const SubLogo = styled(Logo)`
+    font-size: 40px;
+`;
+
+const Container = styled.div`
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("../../assets/img/bg-login.jpg");
+    background-size: cover;
+    color: #fff;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    font-family: Montserrat, sans-serif;
+`;
 
 // Оборачиваем в withRouter, чтобы получить доступ
 // к this.props.history, нужен для редиректа
@@ -55,21 +79,26 @@ class Login extends Component{
 
     render(){
         return (
-        <div>
-
-            <input onChange={this.onChange.bind(this, 'login')}
+        <Container>
+            <Logo>TNR</Logo>
+            <SubLogo>APP</SubLogo>
+            <TextInput onChange={this.onChange.bind(this, 'login')}
                    value={this.state.login} placeholder="login"
-                   type="text"/>
+                   type="text"
+                       image={UsernameIcon}
+            />
 
-            <input onChange={this.onChange.bind(this, 'password')}
+            <TextInput onChange={this.onChange.bind(this, 'password')}
                    value={this.state.password}
+                       image={PasswordIcon}
                    placeholder="password" type="password"/>
 
             <Button type="button"
-                    className="custom-class"
-                    onClick={this.onLogin}>Reg</Button>
+                    onClick={this.onLogin}>
+                get started
+            </Button>
 
-        </div>
+        </Container>
         )
     }
 

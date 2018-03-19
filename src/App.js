@@ -23,7 +23,7 @@ const Menu = (props) => {
             <Link to="/logout/"><Button>logout</Button></Link>
         </div>
     )
-}
+};
 
 // Обертка для компонентов в которых нужно меню
 const Container = (Component) => {
@@ -62,8 +62,6 @@ class App extends Component {
   render() {
     return (
         <div>
-            <h2>TRAINEE</h2>
-
             {/* Обертка для всего что использует роутинг */}
             <Router>
                 <div>
