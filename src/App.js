@@ -78,6 +78,7 @@ class App extends Component {
 
                         {/* Закрытые роуты */}
                         <PrivateRoute path="/home" component={SelectTrainer} />
+                        <Redirect to="/login"/>
                     </Switch>
                 </div>
             </Router>
