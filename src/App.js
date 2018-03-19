@@ -1,49 +1,22 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Switch,
-    Link, NavLink, Redirect}
+import {BrowserRouter as Router, Route, Switch, Redirect}
     from 'react-router-dom';
-import logo from './logo.svg';
-import './App.css';
-import Button from "./components/general/Button";
 import News from "./components/News";
 import CrossFit from "./components/CrossFit";
 import Training from "./components/training";
 import Login, {Logout, Signup} from "./components/Login";
 import SelectTrainer from './components/training/SelectTrainer';
 import {getLogged, excludeProp} from "./utils";
+import Container from './components/Container';
 
 
-// Компонент который рисует меню
-const Menu = (props) => {
-    return (
-        <div>
-            <NavLink to="/home/">home</NavLink>
-            <NavLink to="/daily/">daily</NavLink>
-            <NavLink to="/statistics/">statistics</NavLink>
-            <Link to="/logout/"><Button>logout</Button></Link>
-        </div>
-    )
-};
 
-// Обертка для компонентов в которых нужно меню
-const Container = (Component) => {
-    let WrappedComponent = () => {
-        return (
-            <div className="container">
-                <Menu />
-                <Component />
-            </div>
-        )
-    };
-    // Должны вернуть функцию, чтобы можно было передать в
-    // Route -> component
-    return WrappedComponent;
-}
+
 
 const PrivateRoute = (props) => {
 
     // Новый компонент, который создан с меню
-    let wrappedComponent = Container(props.component);
+    let wrappedComponent = Container(props.component, props.title);
 
     // Проверяем залогинен ли пользователь
     if (getLogged()){
@@ -77,7 +50,7 @@ class App extends Component {
                         <Route path="/signup" component={Signup} />
 
                         {/* Закрытые роуты */}
-                        <PrivateRoute path="/home" component={SelectTrainer} />
+                        <PrivateRoute path="/home" component={SelectTrainer} title="Some Page"/>
                         <Redirect to="/login"/>
                     </Switch>
                 </div>
