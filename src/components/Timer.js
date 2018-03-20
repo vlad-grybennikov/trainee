@@ -1,10 +1,111 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import styled from 'styled-components';
 
-console.log(moment());
 
-export default  class Timer extends Component{
+export const Mask = styled.div`
+   width: 100%;
+   height: 20px; 
+   position: relative;
+`;
+
+const Progress = styled.div`
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(to right, #1e5799 0%, #ff8989 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+export default class Timer extends Component {
+    state = {
+        minutes: 0,
+        seconds: 10,
+        started: false,
+        paused: false,
+        width: '',
+        transition: 'all 1s linear'
+    };
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
+    tickTimer = (point) => {
+        if (this.state.seconds > 0 && this.state.seconds <= 59) {
+            this.setState({
+                seconds: this.state.seconds - 1
+            })
+        } else if (this.state.minutes > 0 && this.state.seconds <= 0) {
+            this.setState({
+                minutes: this.state.minutes - 1,
+                seconds: 59
+            })
+        } else if (this.state.minutes <= 0 && this.state.seconds <= 0) {
+            clearInterval(this.timer);
+            this.setState({
+                minutes: 0,
+                seconds: 0
+            })
+        } else if (this.state.seconds <= 0) {
+            clearInterval(this.timer);
+            this.setState({
+                seconds: 59,
+            })
+        }
+
+        this.setState({
+            width: this.state.width - point
+        });
+    };
+
+    startTimer = () => {
+        let timeInSeconds = this.state.minutes * 60 + this.state.seconds;
+        let point = this.mask.clientWidth / timeInSeconds;
+
+        this.timer = setInterval(this.tickTimer.bind(this, point), 1000);
+        this.setState ({
+            started: true,
+            paused: false,
+            width: this.mask.clientWidth
+        });
+    };
+
+    pauseTimer = () => {
+        clearInterval(this.timer);
+        this.setState ({
+            paused: true
+        })
+    };
+
+    render() {
+        let {minutes, seconds} = this.state;
+        return(
+            <div>
+                <span>{
+                    (minutes < 10) ? "0" + minutes : minutes
+                }</span>
+                :
+                <span className="seconds">{
+                    (seconds < 10) ? "0" + seconds : seconds
+                }</span>
+
+                <button onClick={this.state.started !== true ? this.startTimer : ''}>Start</button>
+                <button onClick={this.state.paused ? this.startTimer : this.pauseTimer}>Pause</button>
+                <Mask style={ this.state } innerRef={(node) => {this.mask2 = node;}}>
+                    <Progress innerRef={(node) => {this.mask = node;}}/>
+                </Mask>
+            </div>
+        )
+    }
+}
+
+
+
+
+/*export default  class Timer extends Component{
     static propTypes = {
         minutes: PropTypes.number.isRequired,
         seconds: PropTypes.number.isRequired,
@@ -96,4 +197,4 @@ export default  class Timer extends Component{
             </div>
         )
     }
-}
+}*/
