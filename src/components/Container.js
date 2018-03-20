@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Link, NavLink} from 'react-router-dom';
-import Button from "./general/Button";
+import {Header, Arrow, Title} from "./ui";
 import styled from 'styled-components';
 import RenderIf from './general/RenderIf'
 
@@ -36,7 +36,7 @@ class Menu extends Component {
                         <NavLink to="/home/">home</NavLink>
                         <NavLink to="/daily/">daily</NavLink>
                         <NavLink to="/statistics/">statistics</NavLink>
-                        <Link to="/logout/"><Button>logout</Button></Link>
+                        <Link to="/logout/">logout</Link>
                     </div>
                 </RenderIf>
                 <RenderIf condition ={!this.state.visible}>
@@ -48,9 +48,7 @@ class Menu extends Component {
     }
 };
 
-const Title = styled.h4`
 
-`
 
 
 
@@ -60,27 +58,11 @@ const Wrapper = styled.div`
         font-family: Montserrat, sans-serif;
         padding: 30px 20px;
 `
-const Header = styled.header`
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-`
-
-const Arrow = styled.div`
-        transform: rotate(-45deg);
-        border: 4px solid #333;
-        width: 12px;
-        height: 12px;
-        border-right: none;
-        border-bottom: none;
-        box-sizing: border-box;
-
- `
 
 
 // Обертка для компонентов в которых нужно меню
 const Container = (Component, title) => {
-    let WrappedComponent = () => {
+    let WrappedComponent = (props) => {
         return (
             <Wrapper>
                 <Header>
@@ -90,7 +72,7 @@ const Container = (Component, title) => {
                     </Title>
                     <Menu/>
                 </Header>
-                <Component />
+                <Component {...props} />
             </Wrapper>
         )
     };
