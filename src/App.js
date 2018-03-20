@@ -49,6 +49,8 @@ class App extends Component {
 
                         <Route path="/signup" component={Signup} />
 
+                        <Route path="/training" component={Training} />
+
                         {/* Закрытые роуты */}
                         <PrivateRoute path="/home" component={SelectTrainer} title="Some Page"/>
                         <Redirect to="/login"/>

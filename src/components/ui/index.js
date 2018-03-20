@@ -91,8 +91,36 @@ export const Arrow = styled.div`
         box-sizing: border-box;
 
  `
- const BackArrowLocal = (props) =>  {
+const BackArrowLocal = (props) =>  {
     return <Arrow {...props} onClick={props.history.goBack} />
-}
+};
 
 export const BackArrow = withRouter(BackArrowLocal);
+
+const defaultSize = 20;
+const diagonal = (size = defaultSize) => {
+    return size * Math.sqrt(2)
+};
+export const CloseIcon = styled.div`
+        width: ${props => props.size ? props.size : defaultSize}px;
+        height: ${props => props.size ? props.size : defaultSize}px;
+        position: relative;
+        &::before, &::after {
+            height: 4px;
+            content: "";
+            width:${props => props.size ? diagonal(props.size) : diagonal()}px;
+            background-color: ${props => props.theme === 'light'? '#fff' : '#000'};
+            display: block;
+            trasnform-origin: center;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+        }
+        &::before{
+            transform: rotate(-45deg) translate(-50%, -50%);
+        }
+        &::after{
+            transform: rotate(45deg) translate(-50%, -50%);
+            top: 150%;
+        }
+`;
