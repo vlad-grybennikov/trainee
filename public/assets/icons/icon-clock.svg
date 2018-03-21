@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.1 (28215) - http://www.bohemiancoding.com/sketch -->
+    <title>Time</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2-9-Timeline" transform="translate(-228.000000, -1209.000000)">
+            <g id="Group" transform="translate(63.000000, 1164.000000)">
+                <g id="Time" transform="translate(160.000000, 40.000000)">
+                    <g>
+                        <g id="Group" transform="translate(5.000000, 5.000000)" fill="#000000">
+                            <path d="M8.23529412,10.5882353 L8.23529412,11.7647059 L14.7058824,11.7647059 L14.7058824,9.41176471 L10.5882353,9.41176471 L10.5882353,5.29411765 L8.23529412,5.29411765 L8.23529412,10.5882353 Z M20,10 C20,15.5234783 15.5217391,20 10,20 C4.47565217,20 0,15.5234783 0,10 C0,4.47652174 4.47565217,0 10,0 C15.5217391,0 20,4.47652174 20,10 Z" id="Shape"></path>
+                        </g>
+                        <rect id="Bounds" x="0" y="0" width="30" height="30"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

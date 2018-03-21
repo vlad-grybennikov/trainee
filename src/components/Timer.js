@@ -1,108 +1,185 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import styled from 'styled-components';
 
+const Container = styled.div`
+  width: 100%;
+  height: 110px;
+  background-color: #fff;
+  box-shadow: 0 50px 50px 0 rgba(0, 0, 0, 0.15);
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  box-sizing: border-box;
+`;
 
-export const Mask = styled.div`
-   width: 100%;
-   height: 20px; 
-   position: relative;
+const Time = styled.div`
+  margin: 0 auto;
+  font-family: Chivo, sans-serif;
+  font-size: 50px;
+  color: #000;
+`;
+
+const Action = styled.div`
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translate(0, -50%);
+`;
+
+const Title = styled.h6`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 0 0 0 14px;
+  font-family: Montserrat, sans-serif;
+  font-size: 10px;
+  color: rgba(0,0,0,.4);
+  &::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-image: url("../assets/icons/icon-clock.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px, 10px;
+    position: absolute;
+    top: 2px;
+    left: 0;
+  }
+`;
+
+const Mask = styled.div`
+  width: 100%;
+  height: 14px; 
+  position: relative;
 `;
 
 const Progress = styled.div`
   width: 100%;
-  height: 20px;
+  height: 14px;
   background: linear-gradient(to right, #1e5799 0%, #ff8989 100%);
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
 `;
 
 export default class Timer extends Component {
+    static propTypes = {
+        paused: PropTypes.bool,
+        time: PropTypes.number,
+        reverse: PropTypes.bool,
+        onTimerEnd: PropTypes.func,
+        onTimerChange: PropTypes.func,
+        onTimerStart: PropTypes.func
+    };
+
+    static defaultProps = {
+        paused: true,
+        time: 0,
+        reverse: false,
+        onTimerEnd: ()=>{},
+        onTimerChange: ()=>{},
+        onTimerStart: ()=>{}
+    };
+
     state = {
-        minutes: 0,
-        seconds: 10,
+        minutes: this.props.minutes,
+        seconds: this.props.seconds,
+        time: '',
         started: false,
-        paused: false,
-        width: '',
-        transition: 'all 1s linear'
+        paused: this.props.paused,
+        width: ''
     };
 
     componentWillUnmount() {
         clearInterval(this.timer);
+    };
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            minutes: nextProps.minutes,
+            seconds: nextProps.seconds,
+            paused: nextProps.paused
+        });
+        console.log(nextProps.minutes);
+        nextProps.paused ? this.startTimer() : console.log('bla');
     }
 
     tickTimer = (point) => {
-        if (this.state.seconds > 0 && this.state.seconds <= 59) {
-            this.setState({
-                seconds: this.state.seconds - 1
-            })
-        } else if (this.state.minutes > 0 && this.state.seconds <= 0) {
-            this.setState({
-                minutes: this.state.minutes - 1,
-                seconds: 59
-            })
-        } else if (this.state.minutes <= 0 && this.state.seconds <= 0) {
-            clearInterval(this.timer);
-            this.setState({
-                minutes: 0,
-                seconds: 0
-            })
-        } else if (this.state.seconds <= 0) {
-            clearInterval(this.timer);
-            this.setState({
-                seconds: 59,
-            })
+        let minutes = this.state.minutes;
+        let seconds = this.state.seconds;
+
+        this.props.reverse ? seconds++ : seconds--;
+
+        if(!this.props.reverse && seconds > 59) {
+            seconds = 0;
+            minutes++;
+        } else if(this.props.reverse && seconds < 1 && minutes > 0){
+            seconds = 59;
+            minutes--;
+        } else if(minutes === 0 && seconds === 0){
+            clearInterval(this.interval);
         }
 
         this.setState({
+            minutes: minutes,
+            seconds: seconds,
             width: this.state.width - point
         });
     };
 
     startTimer = () => {
         let timeInSeconds = this.state.minutes * 60 + this.state.seconds;
-        let point = this.mask.clientWidth / timeInSeconds;
+        let point = this.progress.clientWidth / timeInSeconds;
 
         this.timer = setInterval(this.tickTimer.bind(this, point), 1000);
         this.setState ({
             started: true,
+            time: timeInSeconds,
             paused: false,
-            width: this.mask.clientWidth
+            width: this.progress.clientWidth,
+            start: this.start
         });
+        console.log(this.start);
     };
 
     pauseTimer = () => {
         clearInterval(this.timer);
         this.setState ({
-            paused: true
-        })
+            paused: true,
+        });
     };
 
     render() {
         let {minutes, seconds} = this.state;
         return(
-            <div>
-                <span>{
-                    (minutes < 10) ? "0" + minutes : minutes
-                }</span>
-                :
-                <span className="seconds">{
-                    (seconds < 10) ? "0" + seconds : seconds
-                }</span>
-
-                <button onClick={this.state.started !== true ? this.startTimer : ''}>Start</button>
-                <button onClick={this.state.paused ? this.startTimer : this.pauseTimer}>Pause</button>
-                <Mask style={ this.state } innerRef={(node) => {this.mask2 = node;}}>
-                    <Progress innerRef={(node) => {this.mask = node;}}/>
-                </Mask>
-            </div>
+            <Container>
+                <Title>Time Left</Title>
+                <Time>
+                    <span>{
+                        (minutes < 10) ? "0" + minutes : minutes
+                    }</span>
+                    :
+                    <span>{
+                        (seconds < 10) ? "0" + seconds : seconds
+                    }</span>
+                </Time>
+                <Action onClick={this.state.paused ? this.startTimer : this.pauseTimer}>
+                    <img src={!this.state.paused ? '../assets/icons/icon-pause.svg' : '../assets/icons/icon-play.svg'}
+                         width='20px'/>
+                </Action>
+                <Progress width={`${this.state.width}px`}
+                          innerRef={(node) => {this.progress = node;}}>
+                    <Mask innerRef={(node) => {this.mask = node;}}/>
+                </Progress>
+            </Container>
         )
     }
 }
-
-
 
 
 /*export default  class Timer extends Component{

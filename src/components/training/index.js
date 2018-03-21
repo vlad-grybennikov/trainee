@@ -2,7 +2,19 @@ import React from 'react';
 import './Training.css';
 import Timer from "../Timer";
 import Exercise from "./Exercise";
+import styled from 'styled-components';
 
+const Wrapper = styled.div`
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #dedede;
+    color: #000;
+    padding: 20px 45px;
+    box-sizing: border-box;
+    font-family: Montserrat, sans-serif;
+`;
 
 export const TimeWrapper = (Component, props) => {
     //const props = {
@@ -15,7 +27,7 @@ export const TimeWrapper = (Component, props) => {
                    seconds={props.seconds}
         />
     )
-}
+};
 
 export default class Training extends React.Component {
     state = {
@@ -33,10 +45,20 @@ export default class Training extends React.Component {
             time:null
         }],
         timer: {
-            seconds: 0,
-            minutes: 0
+            minutes: 0,
+            seconds: 25,
+            paused: false
         }
-    }
+    };
+
+    startTimer = () => {
+        this.setState({
+            timer: {
+                paused: false
+            }
+        })
+    };
+
     doneExercise (index){
         this.setState((prevState) => {
             debugger;
@@ -44,7 +66,7 @@ export default class Training extends React.Component {
             prevState.exercises[index].time =
                 `${prevState.timer.minutes}:${prevState.timer.seconds}`;
             return prevState;
-        })
+        });
 
         console.log(this.state.exercises[index])
     }
@@ -56,17 +78,17 @@ export default class Training extends React.Component {
                 seconds
             }
         })
-    }
+    };
 
     trainingEnd = () => {
         this.setState({
             paused: true
         })
-    }
+    };
 
     render () {
         return (
-            <div>
+            <Wrapper>
                 <h2>Тренировка</h2>
                 <div className="container">
                     {
@@ -78,13 +100,14 @@ export default class Training extends React.Component {
                     })}
                 </div>
                 <Timer onTimerChange={this.timerChange}
+                       onTimerStart={this.startTimer}
                        minutes={this.state.timer.minutes}
                        seconds={this.state.timer.seconds}
-                       pause={this.state.paused}
                 />
+
+                <button onClick={this.startTimer}>Start</button>
                 <button onClick={this.trainingEnd}>Закончить</button>
-            </div>
+            </Wrapper>
         )
     }
-
 }
