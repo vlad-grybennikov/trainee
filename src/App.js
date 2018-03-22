@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route, Switch, Redirect}
     from 'react-router-dom';
 import News from "./components/News";
@@ -10,6 +11,7 @@ import {getLogged, excludeProp} from "./utils";
 import Container from './components/Container';
 
 
+import Chat from "./components/Chat";
 
 
 
@@ -57,7 +59,9 @@ class App extends Component {
                     </Switch>
                 </div>
             </Router>
-
+            {ReactDOM.createPortal(
+                <Chat />,
+                document.getElementById('top'))}
         </div>
 
     );
