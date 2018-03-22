@@ -53,9 +53,11 @@ const Title = styled.h6`
 `;
 
 const Mask = styled.div`
-  width: 100%;
   height: 14px; 
-  position: relative;
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  transition: width 1s linear;
 `;
 
 const Progress = styled.div`
@@ -92,7 +94,7 @@ export default class Timer extends Component {
         time: '',
         started: false,
         paused: this.props.paused,
-        width: ''
+        width: 0
     };
 
     componentWillUnmount() {
@@ -101,11 +103,10 @@ export default class Timer extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            minutes: nextProps.minutes,
-            seconds: nextProps.seconds,
+            //minutes: nextProps.minutes,
+            //seconds: nextProps.seconds,
             paused: nextProps.paused
         });
-        console.log(nextProps.minutes);
         nextProps.paused ? this.startTimer() : console.log('bla');
     }
 
@@ -115,42 +116,57 @@ export default class Timer extends Component {
 
         this.props.reverse ? seconds++ : seconds--;
 
-        if(!this.props.reverse && seconds > 59) {
+        if(this.props.reverse && seconds > 59) {
+            console.log('1');
             seconds = 0;
             minutes++;
-        } else if(this.props.reverse && seconds < 1 && minutes > 0){
+        } else if(!this.props.reverse && seconds < 1 && minutes > 0){
+            console.log('2');
             seconds = 59;
             minutes--;
-        } else if(minutes === 0 && seconds === 0){
-            clearInterval(this.interval);
+        } else if(minutes < 1 && seconds < 1){
+            console.log('3');
+            clearInterval(this.timer);
+            point = 0;
         }
 
         this.setState({
             minutes: minutes,
             seconds: seconds,
-            width: this.state.width - point
+            width: this.state.width + point
         });
+       //console.log(this.state.width + point);
     };
 
     startTimer = () => {
         let timeInSeconds = this.state.minutes * 60 + this.state.seconds;
-        let point = this.progress.clientWidth / timeInSeconds;
-
-        this.timer = setInterval(this.tickTimer.bind(this, point), 1000);
-        this.setState ({
-            started: true,
-            time: timeInSeconds,
-            paused: false,
-            width: this.progress.clientWidth,
-            start: this.start
-        });
-        console.log(this.start);
+        if (!this.state.started){
+            let point = this.progress.clientWidth / timeInSeconds;
+            this.timer = setInterval(this.tickTimer.bind(this, point), 1000);
+            this.setState ({
+                started: true,
+                time: timeInSeconds,
+                paused: false,
+                width: this.state.width + point
+            });
+        } else if (this.state.started && this.state.paused) {
+            let point = (this.progress.clientWidth - this.mask.clientWidth) / timeInSeconds;
+            this.timer = setInterval(this.tickTimer.bind(this, point), 1000);
+            this.setState ({
+                started: true,
+                time: timeInSeconds,
+                paused: false,
+                width: this.mask.clientWidth + point
+            });
+        }
+        console.log(this.mask.clientWidth);
     };
 
     pauseTimer = () => {
         clearInterval(this.timer);
         this.setState ({
             paused: true,
+            width: this.mask.clientWidth
         });
     };
 
@@ -172,9 +188,8 @@ export default class Timer extends Component {
                     <img src={!this.state.paused ? '../assets/icons/icon-pause.svg' : '../assets/icons/icon-play.svg'}
                          width='20px'/>
                 </Action>
-                <Progress width={`${this.state.width}px`}
-                          innerRef={(node) => {this.progress = node;}}>
-                    <Mask innerRef={(node) => {this.mask = node;}}/>
+                <Progress innerRef={(node) => {this.progress = node;}}>
+                    <Mask style={this.state} innerRef={(node) => {this.mask = node;}}/>
                 </Progress>
             </Container>
         )

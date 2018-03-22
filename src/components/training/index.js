@@ -46,15 +46,18 @@ export default class Training extends React.Component {
         }],
         timer: {
             minutes: 0,
-            seconds: 25,
-            paused: false
+            seconds: 5,
+            paused: false,
+            reverse: false,
+            started: false
         }
     };
 
     startTimer = () => {
         this.setState({
             timer: {
-                paused: false
+                paused: false,
+                started: true
             }
         })
     };
@@ -103,9 +106,10 @@ export default class Training extends React.Component {
                        onTimerStart={this.startTimer}
                        minutes={this.state.timer.minutes}
                        seconds={this.state.timer.seconds}
+                       revers={this.state.timer.reverse}
                 />
 
-                <button onClick={this.startTimer}>Start</button>
+                <button onClick={!this.state.timer.started ? this.startTimer : ''}>Start</button>
                 <button onClick={this.trainingEnd}>Закончить</button>
             </Wrapper>
         )
