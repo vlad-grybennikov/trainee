@@ -103,11 +103,9 @@ export default class Timer extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            //minutes: nextProps.minutes,
-            //seconds: nextProps.seconds,
             paused: nextProps.paused
         });
-        nextProps.paused ? this.startTimer() : console.log('bla');
+        nextProps.paused ? this.startTimer() : '';
     }
 
     tickTimer = (point) => {
@@ -117,15 +115,12 @@ export default class Timer extends Component {
         this.props.reverse ? seconds++ : seconds--;
 
         if(this.props.reverse && seconds > 59) {
-            console.log('1');
             seconds = 0;
             minutes++;
         } else if(!this.props.reverse && seconds < 1 && minutes > 0){
-            console.log('2');
             seconds = 59;
             minutes--;
         } else if(minutes < 1 && seconds < 1){
-            console.log('3');
             clearInterval(this.timer);
             point = 0;
         }
@@ -135,7 +130,6 @@ export default class Timer extends Component {
             seconds: seconds,
             width: this.state.width + point
         });
-       //console.log(this.state.width + point);
     };
 
     startTimer = () => {
@@ -174,7 +168,7 @@ export default class Timer extends Component {
         let {minutes, seconds} = this.state;
         return(
             <Container>
-                <Title>Time Left</Title>
+                <Title>{this.props.reverse ? 'Track time' : 'Time Left'}</Title>
                 <Time>
                     <span>{
                         (minutes < 10) ? "0" + minutes : minutes
