@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import styled from 'styled-components';
 import {TextInput, Button} from '../ui';
+import store from "./store";
+import {connect} from 'react-redux';
 
 
 const data = [{
@@ -28,6 +30,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: auto;
 `;
 
 const MessageWrapper = styled.div`
@@ -91,14 +94,32 @@ const ChatButton = styled(Button)`
     text-align:center;
 `;
 
-export default class Chatting extends Component{
+class Chatting extends Component{
     state = {
         data: data,
         name: 'Author',
         image: '../../assets/img/bg-login.jpg'
     }
 
+    componentDidMount(){
+        this.unsubscribe = store.subscribe(() => {
+            this.setState({
+                data: store.getStore().messages
+            })
+        });
+    }
+
+    componentWillUnmount(){
+        this.unsubscribe();
+    }
+
     addMessage = () => {
+        store.dispatch({
+            message: "TestMessage",
+            type: "ADD_NEW_MESSAGE"
+            // ...
+        })
+
         this.setState((prevState) => {
             prevState.data.push({
                 name: prevState.name,
@@ -110,6 +131,8 @@ export default class Chatting extends Component{
                 data: prevState.data,
                 message: ''
             }
+        }, () => {
+            this.container.scrollTop = 9999999;
         })
     }
 
@@ -120,20 +143,26 @@ export default class Chatting extends Component{
     }
 
     enterHandler = (e) => {
+        const map = {};
+        map[e.charCode] = e.type == 'keydown';
         if(e.charCode === 13) {
             this.addMessage();
         }
+        debugger;
 
     }
     render(){
         return (
-            <Container>
+            <Container innerRef={(node) => {
+                this.container = node;
+            }}>
                 <MessageWrapper>
                     {
                         this.state.data.map((message, index) => {
                             return <Message {...message} key={index} />
                         })
                     }
+
                 </MessageWrapper>
                 <SendMessage>
                     <InputMessage value={this.state.message}
@@ -147,4 +176,17 @@ export default class Chatting extends Component{
     }
 }
 
-
+const mapStateToProps = (store) => {
+    messages: store.messages
+};
+const dispatchToProps = (store) => {
+    return {
+        addMessage: (message) => {
+            store.dispatch({
+                type: "ADD_NEW_MESSAGE",
+                message: message
+            })
+        }
+    }
+}
+export default connect(mapStateToProps, dispatchToProps)(Chatting)

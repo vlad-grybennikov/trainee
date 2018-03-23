@@ -57,8 +57,8 @@ const Input = styled.input`
 `;
 export const TextInput = (props) => {
     return (
-        <InputWrapper image={props.image} {...excludeProp(props, 'image')}>
-            <Input />
+        <InputWrapper image={props.image} {...excludeProp(props, 'image', 'value')}>
+            <Input value={props.value || ''}/>
         </InputWrapper>
     )
 }

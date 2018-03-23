@@ -4,15 +4,15 @@ import Timer from "../Timer";
 import Exercise from "./Exercise";
 
 
-export const TimeWrapper = (Component, props) => {
-    //const props = {
-    //    minutes: 30,
-    //    seconds: 0
-    //};
+export const TimeWrapper = (Component) => {
+    const p = {
+        minutes: 30,
+        seconds: 0
+    };
 
-    return (
-        <Component minutes={props.minutes}
-                   seconds={props.seconds}
+    return (props) => (
+        <Component minutes={p.minutes}
+                   seconds={p.seconds}
         />
     )
 }

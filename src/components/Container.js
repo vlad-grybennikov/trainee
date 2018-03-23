@@ -134,4 +134,6 @@ const Container = (Component, title) => {
     return WrappedComponent;
 }
 
+Container(Wrapper, "title");
+
 export default Container;
