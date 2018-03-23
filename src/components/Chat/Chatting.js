@@ -2,26 +2,19 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import styled from 'styled-components';
 import {TextInput, Button} from '../ui';
-import store from "./store";
+
 import {connect} from 'react-redux';
+import store from "./store";
 
+setInterval(() => {
+    store.dispatch({
+        type: "ADD_NEW_MESSAGE",
+        image: '../../assets/img/bg-login.jpg',
+        message: "Test Message",
+        sender: false
+    })
+}, 5000);
 
-const data = [{
-    name: 'Author',
-    image: '../../assets/img/bg-login.jpg',
-    message: 'Quickly! Nigga!',
-    sender: false
-}, {
-    name: 'Author',
-    image: '../../assets/img/bg-login.jpg',
-    message: 'Where is my internet?',
-    sender: true
-}, {
-    name: 'Author',
-    image: '../../assets/img/bg-login.jpg',
-    message: "Hello! I'll looking it...",
-    sender: false
-}];
 
 const Container = styled.div`
     background-color: #fafafa;
@@ -96,44 +89,38 @@ const ChatButton = styled(Button)`
 
 class Chatting extends Component{
     state = {
-        data: data,
         name: 'Author',
-        image: '../../assets/img/bg-login.jpg'
+        image: '../../assets/img/ava.png',
+        message: '',
+        messages: this.props.messages
     }
 
     componentDidMount(){
         this.unsubscribe = store.subscribe(() => {
             this.setState({
-                data: store.getStore().messages
-            })
-        });
+                messages: store.getState().messages
+            }, this.scrollDown)
+        })
     }
 
     componentWillUnmount(){
         this.unsubscribe();
     }
 
-    addMessage = () => {
-        store.dispatch({
-            message: "TestMessage",
-            type: "ADD_NEW_MESSAGE"
-            // ...
-        })
+    scrollDown = () => {
+        this.container.scrollTop = 9999999;
+    }
 
-        this.setState((prevState) => {
-            prevState.data.push({
-                name: prevState.name,
-                image: prevState.image,
-                message: prevState.message,
-                sender: true
-            })
-            return {
-                data: prevState.data,
-                message: ''
-            }
-        }, () => {
-            this.container.scrollTop = 9999999;
-        })
+    addMessage = () => {
+        this.props.addMessage({
+            message: this.state.message,
+            image: this.state.image,
+            sender: true
+
+        });
+        this.setState({
+            message: ''
+        }, this.scrollDown)
     }
 
     changeMessage = (e) => {
@@ -148,7 +135,6 @@ class Chatting extends Component{
         if(e.charCode === 13) {
             this.addMessage();
         }
-        debugger;
 
     }
     render(){
@@ -158,7 +144,7 @@ class Chatting extends Component{
             }}>
                 <MessageWrapper>
                     {
-                        this.state.data.map((message, index) => {
+                        this.props.messages.map((message, index) => {
                             return <Message {...message} key={index} />
                         })
                     }
@@ -176,16 +162,22 @@ class Chatting extends Component{
     }
 }
 
-const mapStateToProps = (store) => {
-    messages: store.messages
-};
-const dispatchToProps = (store) => {
+const mapStateToProps = (state) => {
     return {
-        addMessage: (message) => {
-            store.dispatch({
-                type: "ADD_NEW_MESSAGE",
-                message: message
-            })
+        messages: state.messages
+    }
+
+};
+
+const dispatchToProps = (dispatch) => {
+    return {
+        addMessage: ({message, sender, image}) => {
+           dispatch({
+               type: "ADD_NEW_MESSAGE",
+               message,
+               sender,
+               image
+           });
         }
     }
 }

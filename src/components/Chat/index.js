@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import RenderIf from '../general/RenderIf';
 import Chatting from "./Chatting";
 
+import store from "./store";
+import {Provider} from "react-redux";
+
 const Cover = styled.div`
     position: fixed;
     z-index:100;
@@ -37,15 +40,17 @@ export default class Chat extends Component{
 
     render(){
         return (
-            <Cover onClick={this.toggleChat}
-                   innerRef={(node)=> {
-                        this.chatCover = node;
-            }}>
-                {this.state.name}
-                <RenderIf condition={this.state.opened}>
-                    <Chatting />
-                </RenderIf>
-            </Cover>
+            <Provider store={store}>
+                <Cover onClick={this.toggleChat}
+                       innerRef={(node)=> {
+                            this.chatCover = node;
+                }}>
+                    {this.state.name}
+                    <RenderIf condition={this.state.opened}>
+                        <Chatting />
+                    </RenderIf>
+                </Cover>
+            </Provider>
         )
 
     }

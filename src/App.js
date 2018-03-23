@@ -8,7 +8,7 @@ import Training from "./components/training";
 import Login, {Logout, Signup} from "./components/Login";
 import SelectTrainer from './components/training/SelectTrainer';
 import {getLogged, excludeProp} from "./utils";
-import Container from './components/Container';
+import Container from './components/Container'
 
 
 import Chat from "./components/Chat";
@@ -38,6 +38,7 @@ class App extends Component {
     return (
         <div>
             {/* Обертка для всего что использует роутинг */}
+
             <Router>
                 <div>
 
