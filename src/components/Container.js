@@ -4,8 +4,6 @@ import {Header, Arrow, Title, CloseIcon} from "./ui";
 import styled from 'styled-components';
 import RenderIf from './general/RenderIf'
 
-
-
 const Burger = styled.div`
     border: 4px solid #333;
     width: 30px;
@@ -110,6 +108,7 @@ const Wrapper = styled.div`
         height: 100vh;
         font-family: Montserrat, sans-serif;
         padding: 30px 20px;
+        overflow: auto;
 `
 
 

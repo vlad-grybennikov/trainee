@@ -180,5 +180,6 @@ const dispatchToProps = (dispatch) => {
            });
         }
     }
-}
-export default connect(mapStateToProps, dispatchToProps)(Chatting)
+};
+
+export default connect(mapStateToProps, dispatchToProps)(Chatting);

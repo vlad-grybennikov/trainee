@@ -8,7 +8,11 @@ import Training from "./components/training";
 import Login, {Logout, Signup} from "./components/Login";
 import SelectTrainer from './components/training/SelectTrainer';
 import {getLogged, excludeProp} from "./utils";
-import Container from './components/Container'
+import Container from './components/Container';
+import UsersList from './components/UsersList/';
+import UserCard from "./components/UsersList/UserCard";
+import {Provider} from 'react-redux';
+import store from "./components/UsersList/store";
 
 
 import Chat from "./components/Chat";
@@ -36,6 +40,7 @@ const PrivateRoute = (props) => {
 class App extends Component {
   render() {
     return (
+        <Provider store={store}>
         <div>
             {/* Обертка для всего что использует роутинг */}
 
@@ -56,6 +61,8 @@ class App extends Component {
 
                         {/* Закрытые роуты */}
                         <PrivateRoute path="/home" component={SelectTrainer} title="Some Page"/>
+                        <PrivateRoute path="/users/:id" component={UserCard} title="Current User"/>
+                        <PrivateRoute path="/users/" component={UsersList} title="All Users"/>
                         <Redirect to="/login"/>
                     </Switch>
                 </div>
@@ -64,6 +71,7 @@ class App extends Component {
                 <Chat />,
                 document.getElementById('top'))}
         </div>
+        </Provider>
 
     );
   }
