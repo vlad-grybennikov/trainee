@@ -1,4 +1,34 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
+
+const users = (state = [], action) => {
+    switch (action.type) {
+        case ACTIONS.ADD_NEW_USER: {
+            return [...state, {
+                    name: action.name,
+                    age: action.age,
+                    id: action.id
+                }]
+        }
+
+        case ACTIONS.UPDATE_USERS : {
+            return action.users
+        }
+
+        case ACTIONS.DELETE_USER: {
+            return [...state.filter(
+                user => action.id !== user.id
+            )]
+        }
+            //case TOGGLE: {
+            //    return state.exercise.map((ex) => {
+            //        if(action.id === ex.id) ex.checked = !ex.checked;
+            //    })
+            //}
+
+        default:
+            return state;
+    }
+}
 
 const ACTIONS = {
     "ADD_NEW_USER": "ADD_NEW_USER",
@@ -18,37 +48,10 @@ export const getUsers = () => {
         })
 }
 
-const initialState = {
-    users: []
-};
 
-const store = createStore((state = initialState, action) => {
-    switch (action.type) {
-        case ACTIONS.ADD_NEW_USER: {
-            return {
-                users: [...state.users, {
-                    name: action.name,
-                    age: action.age,
-                    id: action.id
-                }]
-            }
-        }
+const store = createStore(combineReducers({
+    users
+}));
 
-        case ACTIONS.UPDATE_USERS : {
-            return {
-                users: action.users
-            }
-        }
-
-            case ACTIONS.DELETE_USER: {
-                return {
-                    users: [...state.users.filter(user => action.id !== user.id)]
-                }
-            }
-
-        default:
-            return state;
-    }
-});
 
 export default store;
