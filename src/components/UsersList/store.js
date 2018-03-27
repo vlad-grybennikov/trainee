@@ -28,7 +28,7 @@ const users = (state = [], action) => {
         default:
             return state;
     }
-}
+};
 
 const ACTIONS = {
     "ADD_NEW_USER": "ADD_NEW_USER",
@@ -50,8 +50,10 @@ export const getUsers = () => {
 
 
 const store = createStore(combineReducers({
-    users
+    users,
+    //exercises
 }));
 
 
 export default store;
+

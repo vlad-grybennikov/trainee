@@ -9,13 +9,14 @@ export const Button = styled.button`
     background-image: -ms-linear-gradient( -10deg, rgb(222,255,201) 0%, rgb(163,248,255) 100%);
     height: 50px;
     width: 100%;
-    max-width: 480px;
+    max-width: ${props => props.size === 'small' ? '300px' : '480px'};
     text-transform:uppercase;
     border: none;
     font-family: inherit;
     font-size: 11px;
     font-weight: bold;
     letter-spacing: 0.14em;
+    color: #999;
 `;
 
 export const Icon = styled.img`
@@ -101,6 +102,8 @@ const defaultSize = 20;
 const diagonal = (size = defaultSize) => {
     return size * Math.sqrt(2)
 };
+
+
 export const CloseIcon = styled.div`
         width: ${props => props.size ? props.size : defaultSize}px;
         height: ${props => props.size ? props.size : defaultSize}px;

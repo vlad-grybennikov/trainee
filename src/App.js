@@ -40,8 +40,9 @@ const PrivateRoute = (props) => {
 class App extends Component {
   render() {
     return (
-        <Provider store={store}>
+
         <div>
+            <Provider store={store}>
             {/* Обертка для всего что использует роутинг */}
 
             <Router>
@@ -70,9 +71,8 @@ class App extends Component {
             {ReactDOM.createPortal(
                 <Chat />,
                 document.getElementById('top'))}
+            </Provider>
         </div>
-        </Provider>
-
     );
   }
 };
