@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
-import Select from '../ui/Select/';
+import Select from '../ui/Select';
 
 class SelectTrainer extends Component {
-
     render(){
-
         return(
             <Select >
                 <Select.Option>Carter</Select.Option>

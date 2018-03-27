@@ -94,14 +94,9 @@ class Menu extends Component {
                 </RenderIf>
                 <Burger onClick={this.menuOpen} />
             </div>
-
         )
     }
 };
-
-
-
-
 
 const Wrapper = styled.div`
         background-color: #dedede;
@@ -110,7 +105,6 @@ const Wrapper = styled.div`
         padding: 30px 20px;
         overflow: auto;
 `
-
 
 // Обертка для компонентов в которых нужно меню
 const Container = (Component, title) => {

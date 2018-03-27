@@ -11,8 +11,10 @@ import {getLogged, excludeProp} from "./utils";
 import Container from './components/Container';
 import UsersList from './components/UsersList/';
 import UserCard from "./components/UsersList/UserCard";
+import Exercises from './components/Exercises';
 import {Provider} from 'react-redux';
-import store from "./components/UsersList/store";
+//import store from "./components/UsersList/store";
+import storeEx from "./components/Exercises/store";
 
 
 import Chat from "./components/Chat";
@@ -40,7 +42,7 @@ const PrivateRoute = (props) => {
 class App extends Component {
   render() {
     return (
-        <Provider store={store}>
+        <Provider store={storeEx}>
         <div>
             {/* Обертка для всего что использует роутинг */}
 
@@ -63,6 +65,7 @@ class App extends Component {
                         <PrivateRoute path="/home" component={SelectTrainer} title="Some Page"/>
                         <PrivateRoute path="/users/:id" component={UserCard} title="Current User"/>
                         <PrivateRoute path="/users/" component={UsersList} title="All Users"/>
+                        <PrivateRoute path="/exercises/" component={Exercises} title="Exercises"/>
                         <Redirect to="/login"/>
                     </Switch>
                 </div>
